@@ -87,7 +87,6 @@ void UnitTestReadScriptFile() {
 #endif
 }
 
-
 void UnitTestClassifyWspecifier() {
 
   {
