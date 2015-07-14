@@ -49,6 +49,5 @@ int main() {
   } catch (std::runtime_error &r) {
     std::cout << "UnitTestError: the error we generated was: " << r.what();
   }
-  return 0;
 }
 

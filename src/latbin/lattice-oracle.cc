@@ -218,8 +218,13 @@ bool GetOracleLattice(Lattice *oracle_lat,
   return status;
 }
 
+}
+
 int main(int argc, char *argv[]) {
   try {
+    using namespace kaldi;
+    typedef kaldi::int32 int32;
+    typedef kaldi::int64 int64;
     using fst::SymbolTable;
     using fst::VectorFst;
     using fst::StdArc;
@@ -427,12 +432,4 @@ int main(int argc, char *argv[]) {
     std::cerr << e.what();
     return -1;
   }
-  return 0;
-}
-
-}  //namespace kaldi
-
-
-int main(int argc, char *argv[]) {
-  return kaldi::main(argc, argv);
 }

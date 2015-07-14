@@ -26,8 +26,6 @@
 #include "fst/fstlib.h"
 #include "fstext/fstext-lib.h"
 
-namespace kaldi {
-
 // Create FST that accepts the phone sequence, with any number
 // of word-start and word-end symbol in between each phone. 
 void CreatePhonesAltFst(const std::vector<int32> &phones,
@@ -62,8 +60,10 @@ void CreatePhonesAltFst(const std::vector<int32> &phones,
 }
 
 int main(int argc, char *argv[]) {
+  using namespace kaldi;
   using fst::VectorFst;
   using fst::StdArc;
+  typedef kaldi::int32 int32;
   try {
     const char *usage =
         "Convert pairs of (phone-level, word-level) transcriptions to\n"
@@ -218,12 +218,6 @@ int main(int argc, char *argv[]) {
     std::cerr << e.what();
     return -1;
   }
-  return 0;
 }
 
-}  //namespace kaldi
 
-
-int main(int argc, char *argv[]) {
-  return kaldi::main(argc, argv);
-}

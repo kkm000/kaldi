@@ -25,10 +25,12 @@
 #include "lm/const-arpa-lm.h"
 #include "util/common-utils.h"
 
-namespace kaldi {
-
 int main(int argc, char *argv[]) {
   try {
+    using namespace kaldi;
+    typedef kaldi::int32 int32;
+    typedef kaldi::int64 int64;
+
     const char *usage =
         "Rescores lattice with the ConstArpaLm format language model. The LM\n"
         "will be wrapped into the DeterministicOnDemandFst interface and the\n"
@@ -118,11 +120,4 @@ int main(int argc, char *argv[]) {
     std::cerr << e.what();
     return -1;
   }
-}
-
-}  //namespace kaldi
-
-
-int main(int argc, char *argv[]) {
-  return kaldi::main(argc, argv);
 }
