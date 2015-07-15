@@ -300,11 +300,11 @@ template<class I> void Factorize(I m, std::vector<I> *factors) {
   }
 }
 
-inline double Hypot(double x, double y) {  return hypot(x, y); }
+inline double Hypot(double x, double y) { return hypot(x, y); }
 
-inline float Hypot(float x, float y) {  return hypotf(x, y); }
+inline float Hypot(float x, float y) { return hypotf(x, y); }
 
-#if !defined(_MSC_VER) || (_MSC_VER >= 1800)
+#if !defined(_MSC_VER) || (_MSC_VER >= 1700)
 inline double Log1p(double x) {  return log1p(x); }
 
 inline float Log1p(float x) {  return log1pf(x); }
@@ -328,11 +328,19 @@ inline float Log1p(float x) {
 
 inline double Exp(double x) { return exp(x); }
 
+inline float Exp(float x) {
 #ifndef KALDI_NO_EXPF
-inline float Exp(float x) { return expf(x); }
-#else
-inline float Exp(float x) { return exp(x); }
+#if !defined(__INTEL_COMPILER) && _MSC_VER == 1800 && defined(_M_X64)
+  // Microsoft CL v18.0 buggy 64-bit implementation of
+  // expf() incorrectly returns -inf for exp(-inf).
+  if (std::isinf(x) && x < 0)
+    return 0;
 #endif
+  return expf(x);
+#else  // KALDI_NO_EXPF
+  return exp(x);
+#endif
+}
 
 inline double Log(double x) { return log(x); }
 

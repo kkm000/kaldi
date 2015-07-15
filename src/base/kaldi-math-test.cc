@@ -173,8 +173,6 @@ void UnitTestLogAddSub() {
 }
 
 void UnitTestDefines() {  // Yes, we even unit-test the preprocessor statements.
-  KALDI_ASSERT(exp(kLogZeroFloat) == 0.0);
-  KALDI_ASSERT(exp(kLogZeroDouble) == 0.0);
   BaseFloat den = 0.0;
   KALDI_ASSERT(KALDI_ISNAN(0.0 / den));
   KALDI_ASSERT(!KALDI_ISINF(0.0 / den));
@@ -185,6 +183,9 @@ void UnitTestDefines() {  // Yes, we even unit-test the preprocessor statements.
   KALDI_ASSERT(KALDI_ISFINITE(0.0));
   KALDI_ASSERT(!KALDI_ISINF(0.0));
   KALDI_ASSERT(!KALDI_ISNAN(0.0));
+
+  KALDI_ASSERT(KALDI_ISINF(kLogZeroFloat));
+  KALDI_ASSERT(KALDI_ISINF(kLogZeroDouble));
 
   std::cout << 1.0+DBL_EPSILON;
   std::cout << 1.0 + 0.5*DBL_EPSILON;
@@ -255,6 +256,51 @@ void UnitTestApproxEqual() {
 }
 
 template<class Real>
+bool IsPosInf(Real x) {
+  return KALDI_ISINF(x) && x > (Real)0;
+}
+
+template<class Real>
+bool IsNegInf(Real x) {
+  return KALDI_ISINF(x) && x < (Real)0;
+}
+
+template<class Real>
+void UnitTestLogExp() {
+  // Trivial identities.
+  KALDI_ASSERT(ApproxEqual(Exp(Log((Real)10.0)), (Real)10.0));
+  KALDI_ASSERT(ApproxEqual(Log(Exp((Real)-20.0)), (Real)-20.0));
+
+  Real neg0 = 0; neg0 = -neg0;
+
+  // IEC 60559 axioms, Log:
+  // * If the argument is ±0, -∞ is returned [and FE_DIVBYZERO is raised].
+  KALDI_ASSERT(IsNegInf(Log((Real)0)));
+  KALDI_ASSERT(IsNegInf(Log(neg0)));
+  // * If the argument is 1, +0 is returned.
+  Real log1 = Log((Real)1);
+  KALDI_ASSERT(log1 == 0 && !signbit(log1));
+  // * If the argument is negative, NaN is returned [and FE_INVALID is raised].
+  KALDI_ASSERT(KALDI_ISNAN(Log((Real)-1.0)));
+  // * If the argument is +∞, +∞ is returned.
+  KALDI_ASSERT(IsPosInf(Log(std::numeric_limits<Real>::infinity())));
+  // * If the argument is NaN, NaN is returned.
+  KALDI_ASSERT(KALDI_ISNAN(Log(std::numeric_limits<Real>::quiet_NaN())));
+
+  // IEC 60559 axioms, Exp:
+  // * If the argument is ±0, 1 is returned.
+  KALDI_ASSERT(Exp((Real)0) == 1);
+  KALDI_ASSERT(Exp(neg0) == 1);
+  // * If the argument is -∞, +0 is returned.
+  Real exp_neg_inf = Exp(-std::numeric_limits<Real>::infinity());
+  KALDI_ASSERT(exp_neg_inf == 0 && !signbit(exp_neg_inf));
+  // * If the argument is +∞, +∞ is returned.
+  KALDI_ASSERT(IsPosInf(Exp(std::numeric_limits<Real>::infinity())));
+  // * If the argument is NaN, NaN is returned.
+  KALDI_ASSERT(KALDI_ISNAN(Exp(std::numeric_limits<Real>::quiet_NaN())));
+}
+
+template<class Real>
 void UnitTestExpSpeed() {
   Real sum = 0.0;  // compute the sum to avoid optimizing it away.
   Real time = 0.01;  // how long this should last.
@@ -307,6 +353,8 @@ int main() {
   UnitTestRand();
   UnitTestAssertFunc();
   UnitTestRoundUpToNearestPowerOfTwo();
+  UnitTestLogExp<float>();
+  UnitTestLogExp<double>();
   UnitTestExpSpeed<float>();
   UnitTestExpSpeed<double>();
   UnitTestLogSpeed<float>();
