@@ -28,6 +28,9 @@
 *.exp
 *.manifest
 
+# MsBuild subdirectories and generated files
+msbuild/*/
+msbuild/kaldi.kwproj
 
 # /tools/
 /tools/ATLAS/
