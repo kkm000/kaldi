@@ -46,22 +46,22 @@
 
     <!-- Additional preprocessor defines. -->
     <!-- Add HAVE_OPENFST_GE_10400 if using openfstwin 1.4.1 and above. -->
-    <KaldiDefines></KaldiDefines>
+    <KaldiDefines>KALDI_CYGWIN_COMPAT</KaldiDefines>
 
     <!-- Additional include directories. At the least, point to openfstwin installation. -->
     <KaldiIncludePaths>
-      C:\projects\kaldi\kaldi\extlibs\openfstwin-1.3.1\include;
-      C:\projects\kaldi\kaldi\extlibs\pthreads-2.9.1\include;
+      ..\..\extlibs\openfstwin-1.3.1\include;
+      ..\..\extlibs\pthreads-2.9.1\include;
     </KaldiIncludePaths>
 
     <!-- Additional library directories. Will be different for 32 and 64 builds. -->
     <KaldiLibPaths Condition =" '$(Platform)' == 'Win32' ">
-      C:\projects\kaldi\kaldi\extlibs\openfstwin-1.3.1\lib\win32;
-      C:\projects\kaldi\kaldi\extlibs\pthreads-2.9.1\lib\x86;
+      ..\..\extlibs\openfstwin-1.3.1\lib\win32;
+      ..\..\extlibs\pthreads-2.9.1\lib\x86;
     </KaldiLibPaths>
     <KaldiLibPaths Condition =" '$(Platform)' == 'x64'   ">
-      C:\projects\kaldi\kaldi\extlibs\openfstwin-1.3.1\lib\x64;
-      C:\projects\kaldi\kaldi\extlibs\pthreads-2.9.1\lib\x64;
+      ..\..\extlibs\openfstwin-1.3.1\lib\x64;
+      ..\..\extlibs\pthreads-2.9.1\lib\x64;
     </KaldiLibPaths>
 
     <!-- Additional link libraries. -->
