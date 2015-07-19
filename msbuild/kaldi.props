@@ -68,12 +68,14 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <!-- If WPO is enabled, the compile time is godawful (hours!) -->
+      <WholeProgramOptimization>false</WholeProgramOptimization>
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup Condition=" '$(KaldiOptimize)' == 'true' ">
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <!-- If WPO is enabled, the compile time is godawful (hours!) -->
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
 
   <!-- User setting: KaldiDebugInfo = true -->
@@ -173,7 +175,7 @@
   <ItemDefinitionGroup  Condition=" '$(_UsingIntelToolset)' == 'true' ">
     <CudaCompile>
       <!--<UseHostDefines>false</UseHostDefines>-->
-      <VCBinDir>C:\Program Files (x86)\Intel\Composer XE 2015\bin\ia32\icl.exe</VCBinDir>
+      <VCBinDir>C:\Program Files (x86)\Intel\Composer XE 2015\bin\intel64\icl.exe</VCBinDir>
       <BaseCommandLineTemplate>-ccbin "%(VCBinDir)" [GenerateRelocatableDeviceCode] [Include] [RequiredIncludes] [CInterleavedPTX] [GPUDebugInfo] [GenerateLineInfo] [Keep] [KeepDir] [MaxRegCount] [PtxAsOptionV] [TargetMachinePlatform] [NvccCompilation] [CudaRuntime] [AdditionalOptions]</BaseCommandLineTemplate>
       <RuntimeApiCommandLineTemplate>%(BaseCommandLineTemplate) [HostDebugInfo] [Emulation] [FastMath] [Defines] %(HostCommandLineTemplate) [CompileOut] "%(FullPath)"</RuntimeApiCommandLineTemplate>
     </CudaCompile>

@@ -32,7 +32,7 @@
         AdvancedVectorExtensions2 - AVX2 - Intel Haswell and above, AMD expected to support in Excavator (MS/Intel)
 
         Note that in SandyBridge AVX is emulated on 256 bit hardware and does not generally outperform SSE3.
-        In Haswell, however, this is the real deal.
+        In Haswell, however, this is a real deal.
       -->
     <KaldiCpuInstructionSet>AdvancedVectorExtensions</KaldiCpuInstructionSet>
 
